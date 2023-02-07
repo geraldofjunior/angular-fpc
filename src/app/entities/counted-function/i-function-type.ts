@@ -1,5 +1,6 @@
-import { ICountedFunction } from './i-counted-function';
+import { Complexity } from 'src/app/enums/complexity';
 
 export interface IFunctionType {
-  calculate(functionCounted: ICountedFunction): number;
+  calculateComplexity(elementaryTypes: number, dataTypes: number): Complexity;
+  calculateContribution(complexity: Complexity): number;
 }

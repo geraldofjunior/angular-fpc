@@ -1,9 +1,26 @@
-import { ICountedFunction } from '../i-counted-function';
-import { IFunctionType } from './../i-function-type';
+import { Complexity } from 'src/app/enums/complexity';
+import { FunctionType } from '../function-type';
 
-export class ExternalInput implements IFunctionType {
-  calculate(functionCounted: ICountedFunction): number {
-    throw new Error('Method not implemented.');
+export class ExternalInput extends FunctionType {
+
+  constructor() {
+    super();
+    super.dataTypeRange = {
+      low: 5,
+      high: 15
+    };
+    super.elementaryTypeRange = {
+      low: 2,
+      high: 2
+    }
+  }
+
+  public calculateContribution(complexity: Complexity): number {
+    switch(complexity) {
+      case Complexity.LOW: return 3;
+      case Complexity.MEDIUM: return 4;
+      case Complexity.HIGH: return 6;
+    }
   }
 
 }
