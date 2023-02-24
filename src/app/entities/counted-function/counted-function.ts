@@ -7,8 +7,4 @@ export class CountedFunction {
   constructor(functionType: IFunctionType) {
     this.functionType = functionType;
   }
-
-  public calculate(): number {
-    return this.functionType.calculate(this);
-  }
 }
