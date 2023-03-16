@@ -1,7 +1,7 @@
+import { IFunctionType } from './i-function-type';
 import { Complexity } from 'src/app/enums/complexity';
-import { ICountedFunction } from './i-counted-function';
 
-export abstract class FunctionType implements ICountedFunction {
+export abstract class FunctionType implements IFunctionType {
   protected dataTypeRange = { low: 25, high: 50 }
   protected elementaryTypeRange = { low: 2, high: 5 };
 

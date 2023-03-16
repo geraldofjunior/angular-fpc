@@ -20,7 +20,7 @@ export class AdjustmentFactor implements IAdjustmentFactor{
     const toRemove = this.findAnInfluence(type);
     if (toRemove === -1) return;
 
-    this.influenceFactor.splice(toRemove);
+    this.influenceFactor.splice(toRemove, 1);
   }
 
   public updateInfluence(type: InfluenceType, newValue: number): void {

@@ -1,12 +1,9 @@
 import { Complexity } from 'src/app/enums/complexity';
-import { AdjustmentFactor } from '../adjustment-factor/adjustment-factor';
-import { IAdjustmentFactor } from '../adjustment-factor/i-adjustment-factor';
 import { IFunctionType } from './i-function-type';
-// The context class
+
 export class CountedFunction {
 
   private functionType: IFunctionType;
-  public adjustmentFactors: IAdjustmentFactor;
   private name: string;
   private dataTypes?: number;
   private elementaryTypes?: number;
@@ -15,7 +12,6 @@ export class CountedFunction {
 
   constructor(functionType: IFunctionType, name: string) {
     this.functionType = functionType;
-    this.adjustmentFactors = new AdjustmentFactor();
     this.name = name;
   }
 
