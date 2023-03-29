@@ -1,5 +1,5 @@
-import { SideMenuComponent } from './../side-menu/side-menu.component';
 import { Component, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-main',
@@ -7,11 +7,11 @@ import { Component, ViewChild } from '@angular/core';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent {
-  @ViewChild(SideMenuComponent, { static: true })
-  sideMenu!: SideMenuComponent;
+  public isSideMenuOpen: boolean = false;
 
-  toggleSidenav() {
-    this.sideMenu.isExpanded = !this.sideMenu.isExpanded;
+  toggleSidenav(menu: MatSidenav) {
+    this.isSideMenuOpen = !this.isSideMenuOpen;
+    this.isSideMenuOpen ? menu.open() : menu.close();
   }
 
 }

@@ -17,7 +17,7 @@ export class LocalForage implements IProvider {
       driver: this.DB_DRIVER,
       name: '',
       version: this.DB_VERSION,
-      storeName: '',
+      storeName: ''
     };
 
     this.DB_TABLES.forEach(current_table => {
@@ -44,6 +44,6 @@ export class LocalForage implements IProvider {
   }
 
   async select(table: string, search: string): Promise<any> {
-    await this.data[table].getItem(search);
+    return await this.data[table].getItem(search);
   }
 }

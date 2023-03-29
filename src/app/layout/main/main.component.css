@@ -1,3 +1,52 @@
-.main {
-  font-family: Arial, Helvetica, sans-serif;
+.sidenav-container {
+  height: 100%;
+  background-color: #eab676;
+}
+
+.page-content {
+  padding: 20px;
+  background-color: #fff;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #e28743;
+}
+
+/* Media queries */
+
+@media screen and (max-width: 600px) {
+  .sidenav-container {
+    position: relative;
+  }
+
+  .mat-sidenav {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .mat-sidenav-content {
+    margin-top: 56px;
+  }
+}
+
+@media screen and (min-width: 601px) {
+  .sidenav-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .mat-sidenav {
+    position: static;
+    width: 200px;
+  }
+
+  .mat-sidenav-content {
+    margin-left: 200px;
+  }
 }

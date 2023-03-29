@@ -1,5 +1,26 @@
-<app-header></app-header>
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="toggleSidenav(sidenav)">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Header</span>
+</mat-toolbar>
 
-<app-side-menu></app-side-menu>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav [mode]="'over'" [opened]="false" class="mat-elevation-z2">
+    <mat-nav-list>
+      <a mat-list-item href="#">Menu Item 1</a>
+      <a mat-list-item href="#">Menu Item 2</a>
+      <a mat-list-item href="#">Menu Item 3</a>
+    </mat-nav-list>
+  </mat-sidenav>
 
-<app-footer></app-footer>
+  <mat-sidenav-content>
+    <div class="page-content">
+      <p>Main content goes here</p>
+    </div>
+
+    <mat-toolbar class="footer" color="primary">
+      <span>Footer</span>
+    </mat-toolbar>
+  </mat-sidenav-content>
+</mat-sidenav-container>
