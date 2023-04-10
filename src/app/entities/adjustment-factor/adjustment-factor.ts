@@ -12,7 +12,7 @@ export class AdjustmentFactor implements IAdjustmentFactor{
   public addInfluence(type: InfluenceType, value: number): void {
     if (this.findAnInfluence(type) !== -1) return;
 
-    let newFactor = new InfluenceFactor(type, value);
+    const newFactor = new InfluenceFactor(type, value);
     this.influenceFactor.push(newFactor);
   }
 

@@ -1,7 +1,7 @@
 export interface IUser {
-  setPricePerFP(price: number): any;
-  setHoursPerFP(hours: number): any;
-  setFunctionPointsPerStoryPoint(FPperSP: number): any
+  setPricePerFP(price: number): void;
+  setHoursPerFP(hours: number): void;
+  setFunctionPointsPerStoryPoint(FPperSP: number): void;
 
   getPricePerFP(): number;
   getHoursPerFP(): number;

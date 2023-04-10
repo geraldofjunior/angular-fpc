@@ -41,12 +41,12 @@ export class CountedFunction {
 
   public getComplexity(): Complexity {
     if (this.complexity === undefined) this.calculate();
-    return this.complexity!;
+    return this.complexity || 0;
   }
 
   public getContribution(): number {
     if (this.contribution === undefined) this.calculate();
-    return this.contribution!;
+    return this.contribution || 0;
   }
 
   public getName(): string {

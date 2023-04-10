@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'home',
-    //loadChildren: () => import('./layout/layout.module').then(m => m.LayoutModule)
     component: MainComponent
   },
   {
