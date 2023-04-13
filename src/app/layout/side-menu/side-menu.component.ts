@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { User } from 'src/app/entities/user/user';
 
 @Component({
   selector: 'app-side-menu',
@@ -6,5 +8,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./side-menu.component.css']
 })
 export class SideMenuComponent {
-  public isExpanded: boolean = true;
+  constructor(private fb: FormBuilder) { }
+
+  public userConfigForm = this.fb.group({
+    pricePerFP: ['', Validators.required],
+    hoursPerFP: ['', Validators.required]
+  });
+
+  public isExpanded: boolean = false;
+
+  public save() {
+    const newConfig = new User();
+
+  }
 }
+

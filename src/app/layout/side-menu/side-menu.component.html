@@ -1,1 +1,9 @@
-<p>side-menu works!</p>
+<form [formGroup]="userConfigForm" (ngSubmit)="save()" id="form-user-config">
+  <label for="user-price" id="user-price-label">Price per Function Point</label>
+  <input type="number" id="user-price" formControlName="pricePerFP" />
+
+  <label for="user-time" id="user-time-label">Hours per Function Point</label>
+  <input type="number" id="user-time" formControlName="hoursPerFP" />
+
+  <input type="submit" id="save-user-button" value="Save">
+</form>
