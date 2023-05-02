@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { IUser } from 'src/app/entities/user/i-user';
 import { User } from 'src/app/entities/user/user';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -9,25 +10,32 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./side-menu.component.css']
 })
 export class SideMenuComponent implements OnInit {
-  constructor(private fb: FormBuilder, private userService: UserService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService) { }
 
-  private currentConfig: User = new User();
+  private currentConfig: IUser = new User();
 
-  public userConfigForm = this.fb.group({
-    pricePerFP: ['', Validators.required],
-    hoursPerFP: ['', Validators.required]
+  public userConfigForm = this.formBuilder.group({
+    pricePerFP: new FormControl(this.currentConfig.getPricePerFP()),
+    hoursPerFP: new FormControl(this.currentConfig.getHoursPerFP())
   });
 
-  public isExpanded: boolean = false;
+  public isExpanded = false;
 
   public save() {
     const newConfig = new User();
+    const formValues = this.userConfigForm.value;
+
+    newConfig.setHoursPerFP(formValues.hoursPerFP ? formValues.hoursPerFP : 0);
+    newConfig.setPricePerFP(formValues.pricePerFP ? formValues.pricePerFP : 0);
+
+    this.currentConfig = newConfig;
+    this.userService.saveConfig(newConfig);
   }
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-
+    this.userService.getConfig().then(userDataObservable =>
+      userDataObservable.subscribe(
+        userData => this.currentConfig = userData));
   }
 }
 
