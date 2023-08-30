@@ -5,9 +5,13 @@ import { ExternalInterfaceFunction } from './data/external-interface-function';
 import { InternalLogicalFile } from './data/internal-logical-file';
 
 describe('FunctionType', () => {
-  expect(new ExternalInterfaceFunction()).toBeTruthy();
-  expect(new InternalLogicalFile()).toBeTruthy();
-  expect(new ExternalInput()).toBeTruthy();
-  expect(new ExternalOutput()).toBeTruthy();
-  expect(new ExternalQuery()).toBeTruthy();
+  it('should be able to create a new instance', () => {
+    expect(new ExternalInterfaceFunction()).toBeTruthy();
+    expect(new InternalLogicalFile()).toBeTruthy();
+    expect(new ExternalInput()).toBeTruthy();
+    expect(new ExternalOutput()).toBeTruthy();
+    expect(new ExternalQuery()).toBeTruthy();
+  });
+
 });
+

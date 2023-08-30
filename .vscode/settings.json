@@ -3,5 +3,6 @@
         "activityBar.background": "#561526",
         "titleBar.activeBackground": "#791D35",
         "titleBar.activeForeground": "#FEFBFC"
-    }
+    },
+    "jasmineExplorer.config": "jasmine.json"
 }
