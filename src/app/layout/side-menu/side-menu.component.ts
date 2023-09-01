@@ -18,10 +18,10 @@ export class SideMenuComponent implements OnInit {
     hoursPerFP: ['', Validators.required]
   });
 
-  public isExpanded: boolean = false;
+  public isExpanded = false;
 
   public save() {
-    const newConfig = new User();
+    //const newConfig = new User();
   }
 
   ngOnInit(): void {

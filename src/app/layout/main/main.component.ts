@@ -7,7 +7,7 @@ import { MatSidenav } from '@angular/material/sidenav';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent {
-  public isSideMenuOpen: boolean = false;
+  public isSideMenuOpen = false;
 
   toggleSidenav(menu: MatSidenav) {
     this.isSideMenuOpen = !this.isSideMenuOpen;
