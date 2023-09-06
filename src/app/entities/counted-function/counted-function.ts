@@ -10,9 +10,9 @@ export class CountedFunction {
   private complexity?: Complexity;
   private contribution?: number;
 
-  constructor(functionType: IFunctionType, name: string) {
+  constructor(functionType: IFunctionType, name = "") {
     this.functionType = functionType;
-    this.name = name;
+    this.name = name.toString();
   }
 
   public setName(newName: string): void {

@@ -14,3 +14,18 @@ describe('CountedFunction', () => {
     expect(new CountedFunction(new ExternalQuery(), "External Query Test")).toBeTruthy();
   });
 });
+
+describe('CountedFunction accessors', () => {
+  it('should get name with no errors', () => {
+    const testObject = new CountedFunction(new InternalLogicalFile(), "Test function");
+    const result = testObject.getName();
+    expect(result).toBe("Test function");
+  });
+
+  it("should set name with no error", () => {
+    const testObject = new CountedFunction(new InternalLogicalFile());
+    testObject.setName("Test function");
+    const result = testObject.getName();
+    expect(result).toBe("Test function");
+  });
+});

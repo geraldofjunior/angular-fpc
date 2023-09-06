@@ -15,7 +15,7 @@ export abstract class FunctionType implements IFunctionType {
 
     } else if (elementaryTypes > this.elementaryTypeRange.high) {
 
-      if (dataTypes > this.dataTypeRange.high)
+      if (dataTypes > this.dataTypeRange.low)
         return Complexity.HIGH;
       else
         return Complexity.MEDIUM;
