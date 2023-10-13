@@ -1,0 +1,37 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#function-name {
+  width: 100%;
+}
+
+#function-type {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.function-type-radio {
+  margin: 5px;
+}
+
+#data-types {
+  margin-right: 10px;
+}
+
+.function-button {
+  margin: 5px;
+}
+
+#function-control-buttons {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  align-items: flex-start;
+}

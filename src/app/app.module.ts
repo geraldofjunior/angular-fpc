@@ -13,7 +13,12 @@ import { SideMenuComponent } from './layout/side-menu/side-menu.component';
 import { CalculatorProjectComponent } from './layout/calculator-project/calculator-project.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CalculatorFunctionComponent} from "./layout/calculator-function/calculator-function.component";
+import {MatRadioModule} from "@angular/material/radio";
+import {MatInputModule} from "@angular/material/input";
+import {MatFormFieldControl, MatFormFieldModule} from "@angular/material/form-field";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -21,8 +26,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MainComponent,
     SideMenuComponent,
     CalculatorProjectComponent,
+    CalculatorFunctionComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,9 +36,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatToolbarModule,
     MatSidenavModule,
     MatIconModule,
+    MatInputModule,
     MatListModule,
+    MatRadioModule,
+    MatFormFieldModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

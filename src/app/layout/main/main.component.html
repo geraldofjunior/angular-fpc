@@ -2,7 +2,9 @@
   <button mat-icon-button (click)="toggleSidenav(sidenav)">
     <mat-icon>menu</mat-icon>
   </button>
-  <span>Header</span>
+  <div id="header_menu">
+    <app-header></app-header>
+  </div>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">
@@ -12,11 +14,11 @@
 
   <mat-sidenav-content>
     <div class="page-content">
-      <p>Main content goes here</p>
+      <router-outlet></router-outlet>
     </div>
 
     <mat-toolbar class="footer" color="primary">
-      <span>Footer</span>
+      <app-footer></app-footer>
     </mat-toolbar>
   </mat-sidenav-content>
 </mat-sidenav-container>

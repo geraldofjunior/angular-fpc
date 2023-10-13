@@ -1,12 +1,36 @@
-<form id="form-counted-function">
-  <label for="function-name" id="function-name-label">Function Name</label>
-  <input type="text" id="function-name" />
+<form id="form-counted-function" class="mat-form" [formGroup]="functionForm" (ngSubmit)="addFunction()">
+  <mat-form-field id="function-name">
+    <mat-label>Function name</mat-label>
+    <input matInput type="text" formControlName="name" aria-label="Function Name">
+  </mat-form-field>
+
+  <label id="lbl-function-type: ">Function type</label>
+  <mat-radio-group aria-labelledby="lbl-function-type" id="function-type" formControlName="functionType">
+    <mat-radio-button class="function-type-radio" value="ILF">Internal Logical File</mat-radio-button>
+    <mat-radio-button class="function-type-radio" value="EIF">External Interface Function</mat-radio-button>
+    <mat-radio-button class="function-type-radio" value="EI">External Input</mat-radio-button>
+    <mat-radio-button class="function-type-radio" value="EO">External Output</mat-radio-button>
+    <mat-radio-button class="function-type-radio" value="EQ">External Query</mat-radio-button>
+  </mat-radio-group>
+
+  <mat-form-field id="data-types">
+    <mat-label>Data types</mat-label>
+    <input matInput type="number" formControlName="dataTypes" aria-label="Data Types" class="mat-form-field" />
+  </mat-form-field>
+
+  <mat-form-field id="elementary-types">
+    <mat-label>Elementary types</mat-label>
+    <input matInput type="number" formControlName="elementaryTypes" aria-label="Elementary Types" />
+  </mat-form-field>
+
+  <div id="results-box" style="display: none">
+    Complexity: <input type="text" id="complexity" class="borderless" /><br>
+    Contribution: <input type="text" id="contribution" class="borderless" />
+  </div>
+
+  <div id="function-control-buttons">
+    <button mat-fab extended class="function-button" id="add-function-button" type="submit">Add Function</button>
+    <button mat-fab extended class="function-button" id="calculate-function-button" type="button" (click)="calculateFunction()">Calculate this function</button>
+    <button mat-fab extended class="function-button" id="reset-button" type="reset">Clean</button>
+  </div>
 </form>
-<!--
-  private functionType: IFunctionType;
-  private name: string;
-  private dataTypes?: number;
-  private elementaryTypes?: number;
-  private complexity?: Complexity;
-  private contribution?: number;
--->
