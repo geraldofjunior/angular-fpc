@@ -1,9 +1,13 @@
 <form [formGroup]="userConfigForm" (ngSubmit)="save()" id="form-user-config">
-  <label for="user-price" id="user-price-label">Price per Function Point</label>
-  <input type="number" id="user-price" formControlName="pricePerFP" />
+  <mat-form-field id="user-price">
+    <mat-label>Price per function point</mat-label>
+    <input matInput type="number" formControlName="pricePerFP" aria-label="Price per function point" />
+  </mat-form-field>
 
-  <label for="user-time" id="user-time-label">Hours per Function Point</label>
-  <input type="number" id="user-time" formControlName="hoursPerFP" />
+  <mat-form-field id="user-time">
+    <mat-label>Hours per function point</mat-label>
+    <input matInput type="number" id="user-time" formControlName="hoursPerFP" />
+  </mat-form-field>
 
-  <input type="submit" id="save-user-button" value="Save">
+  <button mat-fab extended class="user-button" id="user-save" type="submit">Save</button>
 </form>

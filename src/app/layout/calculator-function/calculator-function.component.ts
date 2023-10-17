@@ -1,7 +1,6 @@
 import { ExternalQuery } from './../../entities/counted-function/transaction/external-query';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { empty } from 'rxjs';
 import { CountedFunction } from 'src/app/entities/counted-function/counted-function';
 import { ExternalInterfaceFunction } from 'src/app/entities/counted-function/data/external-interface-function';
 import { InternalLogicalFile } from 'src/app/entities/counted-function/data/internal-logical-file';

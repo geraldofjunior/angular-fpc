@@ -1,6 +1,4 @@
-import { IUser } from './i-user';
-
-export class User implements IUser{
+export class User {
   private pricePerFP: number;
   private hoursPerFP: number;
   private FPPerStoryPoint: number;
@@ -11,9 +9,9 @@ export class User implements IUser{
     this.FPPerStoryPoint = functionPointsPerStoryPoint;
   }
 
-  public setPricePerFP(price: number): void { this.pricePerFP = price; }
-  public setHoursPerFP(hours: number): void { this.hoursPerFP = hours; }
-  public setFunctionPointsPerStoryPoint(FPperSP: number): void { this.FPPerStoryPoint = FPperSP; }
+  public setPricePerFP(price: number): User { this.pricePerFP = price; return this; }
+  public setHoursPerFP(hours: number): User { this.hoursPerFP = hours; return this; }
+  public setFunctionPointsPerStoryPoint(FPperSP: number): User { this.FPPerStoryPoint = FPperSP; return this; }
 
 
   public getPricePerFP(): number { return this.pricePerFP; }

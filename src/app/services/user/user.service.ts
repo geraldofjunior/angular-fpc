@@ -7,7 +7,15 @@ import { User } from 'src/app/entities/user/user';
 })
 export class UserService {
 
+  private userConfig = new User();
+
   public getConfig(): Observable<User> {
-    return of(new User());
+    return of(this.userConfig);
+  }
+
+  public updateUser(config: User) {
+    this.userConfig.setHoursPerFP(config.getHoursPerFP())
+        .setPricePerFP(config.getPricePerFP())
+        .setFunctionPointsPerStoryPoint(config.getFunctionPointsPerStoryPoint());
   }
 }
