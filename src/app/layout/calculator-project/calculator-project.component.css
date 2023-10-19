@@ -1,0 +1,18 @@
+.function-list--card {
+  margin-bottom: 5px;
+}
+
+.function-list--content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.function-list--content, #project-type-label {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  color: #666;
+}
+
+#project-name {
+  width: 100%;
+}
+

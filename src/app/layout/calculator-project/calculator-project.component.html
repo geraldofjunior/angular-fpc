@@ -1,17 +1,17 @@
-<form id="form-counted-project">
-  <label for="project-name" id="project-name-label">Project Name</label>
-  <input type="text" id="project-name" />
+<form id="form-counted-project" class="mat-form" [formGroup]="projectForm" (ngSubmit)="save()">
+  <mat-form-field id="project-name">
+    <mat-label id="project-name-label">Project name</mat-label>
+    <input matInput type="text" formControlName="projectName" aria-labelledby="project-name-label" />
+  </mat-form-field>
 
-  <label for="project-type" id="project-type-label">Project type</label>
-  <select id="project-type">
-    <option value="DEVELOPMENT">Development</option>
-    <option value="ENHANCEMENT">Enhancement</option>
-    <option value="APPLICATION">Application</option>
-  </select>
+  <mat-label id="project-type-label">Project type: </mat-label><br>
+  <mat-radio-group id="project-type" formControlName="projectType" aria-labelledby="project-type-label">
+    <mat-radio-button class="project-type-option" value="DEV">Development</mat-radio-button>
+    <mat-radio-button class="project-type-option" value="ENH">Enhancement</mat-radio-button>
+    <mat-radio-button class="project-type-option" value="APP">Application</mat-radio-button>
+  </mat-radio-group><br>
 
-  <button id="project-influence-button">Influence factors</button>
-  <input type="submit" value="Save changes" />
-
+  <button mat-fab extended type="submit" id="update-project-data-button">Save</button>
 </form>
 
 <!-- Results -->
@@ -19,16 +19,31 @@
 <div id="result">
   <span id="result-title">Results</span>
   <div id="result-fp">
-    <span id="result-fp-title">Points</span>
-    <span id="result-fp-points">XX FPs</span>
+    <span id="result-fp-title">Points: </span>
+    <span id="result-fp-points">{{points}} FPs</span>
   </div>
   <div id="result-time">
-    <span id="result-time-title">Time needed</span>
-    <span id="result-time-days">XX days</span>
+    <span id="result-time-title">Time needed: </span>
+    <span id="result-time-days">{{days}} days</span>
   </div>
+  <hr>
 </div>
 
 <!-- Function list -->
-<div id="function-list">
-  <!-- TODO: Build a list of functions -->
+<div id="function-list" *ngIf="functionList.length > 1">
+  <mat-card class="function-list--card" *ngFor="let func of functionList">
+      <mat-card-header>
+          <mat-card-title class="function-list--item-title">{{func.getName()}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="function-list--content">
+          <span class="function-list--item-detail item-detail--complexity"><strong>Complexity: </strong>{{func.getComplexity()}}</span>
+          <span class="function-list--item-detail item-detail--contribution"><strong>Contribution: </strong>{{func.getContribution()}}</span>
+          <span class="function-list--item-detail item-detail--data"><strong>Data types: </strong>{{func.getDataTypes()}}</span>
+          <span class="function-list--item-detail item-detail--element"><strong>Elementary types: </strong>{{func.getElementaryTypes()}}</span>
+      </mat-card-content>
+      <mat-card-actions align="end">
+          <button mat-button (click)="editFunction(func)">Edit function</button>
+          <button mat-button (click)="deleteFunction(func)">Delete function</button>
+      </mat-card-actions>
+  </mat-card>
 </div>

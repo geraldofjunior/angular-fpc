@@ -5,38 +5,41 @@ export class CountedFunction {
 
   private functionType: IFunctionType;
   private name: string;
-  private dataTypes?: number;
-  private elementaryTypes?: number;
-  private complexity?: Complexity;
-  private contribution?: number;
+  private dataTypes: number;
+  private elementaryTypes: number;
+  private complexity: Complexity;
+  private contribution: number;
 
   constructor(functionType: IFunctionType, name = "") {
     this.functionType = functionType;
     this.name = name.toString();
+    this.dataTypes = 0;
+    this.elementaryTypes = 0;
+    this.contribution = 0;
+    this.complexity = Complexity.LOW;
   }
 
-  public setName(newName: string): void {
+  public setName(newName: string): CountedFunction {
     this.name = newName;
+    return this;
   }
 
-  public setDataTypes(types: number): void {
+  public setDataTypes(types: number): CountedFunction {
     this.dataTypes = types < 0 ? 0 : types;
     this.calculate();
+    return this;
   }
 
-  public setElementaryTypes(types: number): void {
+  public setElementaryTypes(types: number): CountedFunction {
     this.elementaryTypes = types < 0 ? 0 : types;
     this.calculate();
+    return this;
   }
 
-  private calculate(): void {
-    if (this.elementaryTypes !== undefined && this.dataTypes !== undefined) {
-      this.complexity = this.functionType.calculateComplexity(this.elementaryTypes, this.dataTypes)
-      this.contribution = this.functionType.calculateContribution(this.complexity);
-    } else {
-      this.complexity = Complexity.LOW;
-      this.contribution = 0;
-    }
+  private calculate(): CountedFunction {
+    this.complexity = this.functionType.calculateComplexity(this.elementaryTypes, this.dataTypes)
+    this.contribution = this.functionType.calculateContribution(this.complexity);
+    return this;
   }
 
   public getComplexity(): Complexity {
@@ -51,5 +54,13 @@ export class CountedFunction {
 
   public getName(): string {
     return this.name;
+  }
+
+  public getDataTypes(): number {
+    return this.dataTypes;
+  }
+
+  public getElementaryTypes(): number {
+    return this.elementaryTypes;
   }
 }

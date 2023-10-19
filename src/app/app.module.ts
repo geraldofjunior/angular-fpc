@@ -2,7 +2,6 @@ import { MainComponent } from './layout/main/main.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -13,12 +12,13 @@ import { SideMenuComponent } from './layout/side-menu/side-menu.component';
 import { CalculatorProjectComponent } from './layout/calculator-project/calculator-project.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CalculatorFunctionComponent} from "./layout/calculator-function/calculator-function.component";
-import {MatRadioModule} from "@angular/material/radio";
-import {MatInputModule} from "@angular/material/input";
-import {MatFormFieldControl, MatFormFieldModule} from "@angular/material/form-field";
-import {MatButtonModule} from "@angular/material/button";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CalculatorFunctionComponent } from "./layout/calculator-function/calculator-function.component";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -43,8 +43,8 @@ import {MatButtonModule} from "@angular/material/button";
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
