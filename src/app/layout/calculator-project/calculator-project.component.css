@@ -7,12 +7,26 @@
   justify-content: space-between;
 }
 
-.function-list--content, #project-type-label {
+.function-list--content, #project-type-label, .result-item-title, .result-item-value {
   font-family: Roboto, Arial, Helvetica, sans-serif;
   color: #666;
+}
+
+.result-item-title {
+  font-weight: bold;
+}
+.result-value {
+  margin: 10px 15px;
 }
 
 #project-name {
   width: 100%;
 }
+
+#results {
+  margin: 15px auto;
+  background-color:beige;
+  width: fit-content;
+}
+
 

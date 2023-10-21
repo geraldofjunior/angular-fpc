@@ -16,18 +16,19 @@
 
 <!-- Results -->
 <!-- TODO: Link results here -->
-<div id="result">
-  <span id="result-title">Results</span>
-  <div id="result-fp">
-    <span id="result-fp-title">Points: </span>
-    <span id="result-fp-points">{{points}} FPs</span>
-  </div>
-  <div id="result-time">
-    <span id="result-time-title">Time needed: </span>
-    <span id="result-time-days">{{days}} days</span>
-  </div>
-  <hr>
-</div>
+<mat-card id="results">
+  <mat-card-header><mat-card-title id="result-title">Project size</mat-card-title></mat-card-header>
+  <mat-card-content>
+    <div class="result-value">
+      <span class="result-item-title">Function Points: </span>
+      <span class="result-item-value">{{points}} FPs</span>
+    </div>
+    <div class="result-value">
+      <span class="result-item-title">Time needed: </span>
+      <span class="result-item-value">{{days.toFixed(0)}} days</span>
+    </div>
+  </mat-card-content>
+</mat-card>
 
 <!-- Function list -->
 <div id="function-list" *ngIf="functionList.length > 1">
@@ -36,7 +37,8 @@
           <mat-card-title class="function-list--item-title">{{func.getName()}}</mat-card-title>
       </mat-card-header>
       <mat-card-content class="function-list--content">
-          <span class="function-list--item-detail item-detail--complexity"><strong>Complexity: </strong>{{func.getComplexity()}}</span>
+          <span class="function-list--item-detail item-detail--type"><strong>Type: </strong>{{func.getFunctionTypeName()}}</span>
+          <span class="function-list--item-detail item-detail--complexity"><strong>Complexity: </strong>{{func.getComplexityName()}}</span>
           <span class="function-list--item-detail item-detail--contribution"><strong>Contribution: </strong>{{func.getContribution()}}</span>
           <span class="function-list--item-detail item-detail--data"><strong>Data types: </strong>{{func.getDataTypes()}}</span>
           <span class="function-list--item-detail item-detail--element"><strong>Elementary types: </strong>{{func.getElementaryTypes()}}</span>

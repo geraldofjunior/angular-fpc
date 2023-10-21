@@ -47,9 +47,30 @@ export class CountedFunction {
     return this.complexity || 0;
   }
 
+  public getComplexityName(): string {
+    if (this.complexity === undefined) this.calculate();
+    switch (this.complexity) {
+      case Complexity.LOW: return "Low";
+      case Complexity.MEDIUM: return "Medium";
+      case Complexity.HIGH: return "High";
+      default: return "Unset";
+    }
+  }
+
   public getContribution(): number {
     if (this.contribution === undefined) this.calculate();
     return this.contribution || 0;
+  }
+
+  public getFunctionTypeName(): string {
+    switch (this.functionType.constructor.name) {
+      case "InternalLogicalFile": return "Internal Logical File";
+      case "ExternalInterfaceFunction": return "External Interface Function";
+      case "ExternalInput": return "External Input";
+      case "ExternalOutput": return "External Output";
+      case "ExternalQuery": return "External Query";
+      default: return "Not set";
+    }
   }
 
   public getName(): string {

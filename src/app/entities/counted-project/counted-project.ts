@@ -38,18 +38,12 @@ export class CountedProject {
     return this;
   }
   public findFunction(functionName: string): CountedFunction | undefined {
-    return this.functions.find(
-      (currentFunction) => {
-        currentFunction.getName() === functionName
-      }
-    );
+    const found = this.functions.find(item => item.getName() === functionName);
+    return found;
   }
   private findFunctionIndex(functionName: string): number {
-    return this.functions.findIndex(
-      (currentFunction) => {
-        currentFunction.getName() === functionName
-      }
-    );
+    const found = this.functions.findIndex(item => item.getName() === functionName);
+    return found;
   }
   public updateFunction(functionName: string, newData: CountedFunction): CountedProject {
     const index = this.findFunctionIndex(functionName);
@@ -57,6 +51,16 @@ export class CountedProject {
 
     this.functions[index] = newData;
     return this;
+  }
+  public getFunction(id: number): CountedFunction {
+    if (id < 0 || id >= this.functions.length) throw new Error("Invalid ID");
+    return this.functions[id];
+  }
+  public searchFunction(functionName: string): CountedFunction {
+    if(!functionName) throw new Error("Looking for no function");
+    const functionFound = this.findFunction(functionName);
+    if (!functionFound) throw new Error("Function not found");
+    return functionFound;
   }
   public removeFunction(functionName: string): CountedProject {
     const index = this.findFunctionIndex(functionName);

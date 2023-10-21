@@ -30,7 +30,7 @@ export class AdjustmentFactor implements IAdjustmentFactor{
 
   public calculate(): number {
     if (this.influenceFactor.length === 0)
-      return 0;
+      return 1;
 
     let sum = 0;
 

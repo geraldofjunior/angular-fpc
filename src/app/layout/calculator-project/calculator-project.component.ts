@@ -45,7 +45,7 @@ export class CalculatorProjectComponent implements OnInit {
       this.projectForm.value.projectType = this.projectData.getProjectType();
     });
 
-    // Create some dummy objects to be modelled
+    // Create some dummy objects to be modeled
     for(let i = 1; i <= 5; i++) {
       const dummyFunction = new CountedFunction(new InternalLogicalFile(), "Dummy function No. " + i );
       dummyFunction.setDataTypes(i*5).setElementaryTypes(i);
