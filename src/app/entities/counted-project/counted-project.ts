@@ -7,14 +7,14 @@ import { InfluenceType } from 'src/app/enums/influence-type';
 export class CountedProject {
   public setProjectType(projectType: string): CountedProject {
     switch (projectType) {
-      case "APP": this.projectType = ProjectType.APPLICATION; break;
-      case "DEV": this.projectType = ProjectType.DEVELOPMENT; break;
-      case "ENH": this.projectType = ProjectType.ENHANCMENT;  break;
+      case "2": this.projectType = ProjectType.APPLICATION; break;
+      case "0": this.projectType = ProjectType.DEVELOPMENT; break;
+      case "1": this.projectType = ProjectType.ENHANCMENT;  break;
     }
     return this;
   }
-  public getProjectType(): string {
-    return this.projectName;
+  public getProjectType(): ProjectType {
+    return this.projectType;
   }
   private functions: Array<CountedFunction> = new Array<CountedFunction>();
   private adjustmentFactors: IAdjustmentFactor = new AdjustmentFactor();
@@ -75,7 +75,6 @@ export class CountedProject {
   public updateAdjustmentFactor(type: InfluenceType, value: number): CountedProject { this.adjustmentFactors.updateInfluence(type, value); return this; }
   public removeAdjustmentFactor(type: InfluenceType): CountedProject { this.adjustmentFactors.removeInfluence(type); return this; }
 
-  // It calculates the function points before adjustment valuess is taken into account.
   public calculatePoints() {
     let grossPoints = 0;
     this.functions.forEach((currentFunction: CountedFunction) => { grossPoints += currentFunction.getContribution(); });

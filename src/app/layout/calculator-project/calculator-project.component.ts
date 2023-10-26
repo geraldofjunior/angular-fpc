@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { CountedFunction } from 'src/app/entities/counted-function/counted-function';
 import { InternalLogicalFile } from 'src/app/entities/counted-function/data/internal-logical-file';
 import { CountedProject } from 'src/app/entities/counted-project/counted-project';
 import { ProjectService } from 'src/app/services/project/project.service';
+import { CalculatorFunctionComponent } from '../calculator-function/calculator-function.component';
 
 @Component({
   selector: 'app-calculator-project',
@@ -17,15 +19,13 @@ export class CalculatorProjectComponent implements OnInit {
   public points: number;
   public days: number;
 
-  constructor(private service: ProjectService) {
+  constructor(private service: ProjectService,
+              public functionDialog: MatDialog) {
     this.points = 0;
     this.days = 0;
   }
 
-  public projectForm = new FormGroup({
-    projectName: new FormControl<string>("", Validators.required),
-    projectType: new FormControl<string>("", Validators.required)
-  });
+  public projectForm!: FormGroup;
 
   public save(): void {
     if (this.projectForm.invalid) return;
@@ -55,6 +55,15 @@ export class CalculatorProjectComponent implements OnInit {
     }
     this.days = this.points / 8;
     this.service.saveProjectData(this.projectData);
+
+    this.service.getAllFunctions().subscribe( functions => {
+      this.functionList = functions;
+    });
+
+    this.projectForm = new FormGroup({
+      projectName: new FormControl<string>(this.projectData.getProjectName() || "", Validators.required),
+      projectType: new FormControl<string>(this.projectData.getProjectType().toString() || "", Validators.required)
+    });
   }
 
   private updateFunctionList() {
@@ -63,11 +72,19 @@ export class CalculatorProjectComponent implements OnInit {
     this.days = this.points / 8;
   }
 
-  public deleteFunction(functionToBeDeleted: CountedFunction) {
-    return;
+  public deleteFunction(functionToBeDeleted: CountedFunction): void {
+    this.projectData.removeFunction(functionToBeDeleted.getName());
+    this.service.saveProjectData(this.projectData);
+    this.updateFunctionList();
   }
 
   public editFunction(functionToBeUpdated: CountedFunction) {
-    // TODO: show form and send data to fill it
+    this.functionDialog.open(CalculatorFunctionComponent, {
+      width: '434px',
+      data: functionToBeUpdated
+    });
+
+    // Se precisar de dados do formulário, inscrever no afterClosed() do dialogRef, que é
+    // retorno do método open()
   }
 }

@@ -6,9 +6,9 @@
 
   <mat-label id="project-type-label">Project type: </mat-label><br>
   <mat-radio-group id="project-type" formControlName="projectType" aria-labelledby="project-type-label">
-    <mat-radio-button class="project-type-option" value="DEV">Development</mat-radio-button>
-    <mat-radio-button class="project-type-option" value="ENH">Enhancement</mat-radio-button>
-    <mat-radio-button class="project-type-option" value="APP">Application</mat-radio-button>
+    <mat-radio-button class="project-type-option" value="0">Development</mat-radio-button>
+    <mat-radio-button class="project-type-option" value="1">Enhancement</mat-radio-button>
+    <mat-radio-button class="project-type-option" value="2">Application</mat-radio-button>
   </mat-radio-group><br>
 
   <button mat-fab extended type="submit" id="update-project-data-button">Save</button>
@@ -31,7 +31,7 @@
 </mat-card>
 
 <!-- Function list -->
-<div id="function-list" *ngIf="functionList.length > 1">
+<div id="function-list" *ngIf="functionList.length > 0">
   <mat-card class="function-list--card" *ngFor="let func of functionList">
       <mat-card-header>
           <mat-card-title class="function-list--item-title">{{func.getName()}}</mat-card-title>
@@ -44,8 +44,8 @@
           <span class="function-list--item-detail item-detail--element"><strong>Elementary types: </strong>{{func.getElementaryTypes()}}</span>
       </mat-card-content>
       <mat-card-actions align="end">
-          <button mat-button (click)="editFunction(func)">Edit function</button>
-          <button mat-button (click)="deleteFunction(func)">Delete function</button>
+          <button mat-button (click)="editFunction(func)"><mat-icon fontIcon="edit" style="color: green;"></mat-icon>Edit function</button>
+          <button mat-button (click)="deleteFunction(func)"><mat-icon fontIcon="close" style="color: red;"></mat-icon> Delete function</button>
       </mat-card-actions>
   </mat-card>
 </div>
