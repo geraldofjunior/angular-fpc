@@ -49,4 +49,8 @@ export class ProjectService {
   public getAllFunctions(): Observable<Array<CountedFunction>> {
     return of(this.project.getAllFunctions());
   }
+
+  public getPoints(): Observable<number> {
+    return of(this.project.calculatePoints());
+  }
 }

@@ -64,33 +64,27 @@ export class CalculatorFunctionComponent implements OnInit {
   public addFunction(): void {
     if (!this.functionForm.valid) return;
     const addedFunction = this.createFunction();
-    // TODO: send this object to service
-
-    alert("Function added. \n\n Values: \n name: " + addedFunction.getName());
+    this.projectManager.addFunction(addedFunction);
     this.dialogRef.close();
   }
 
   public editFunction(): void {
+    if (!this.functionForm.valid) return;
     const functionName = this.loadedData.getName();
-    const newData = new CountedFunction(this.convertToFunctionType(this.functionForm.value.functionType || ""), this.functionForm.value.name || "")
-          .setDataTypes(this.functionForm.value.dataTypes || 0)
-          .setElementaryTypes(this.functionForm.value.elementaryTypes || 0);
+    const newData = this.createFunction();
     this.projectManager.editFunction(functionName, newData);
     this.dialogRef.close();
   }
 
   private createFunction(): CountedFunction {
-    const functionName = this.functionForm.value.name ? this.functionForm.value.name : "";
-    const functionType = this.functionForm.value.functionType ? this.functionForm.value.functionType : DEFAULT_TYPE;
-    const functionObject = new CountedFunction(this.convertToFunctionType(functionType), functionName);
-    const dataTypes = this.functionForm.value.dataTypes ? this.functionForm.value.dataTypes : 0;
-    const elementTypes = this.functionForm.value.elementaryTypes ? this.functionForm.value.elementaryTypes : 0;
-    functionObject.setDataTypes(dataTypes);
-    functionObject.setElementaryTypes(elementTypes);
-    return functionObject;
+    return new CountedFunction(
+      this.convertToFunctionType(this.functionForm.value.functionType?.toString()),
+      this.functionForm.value.name?.toString())
+          .setDataTypes(this.functionForm.value.dataTypes || 0)
+          .setElementaryTypes(this.functionForm.value.elementaryTypes || 0);
   }
 
-  private convertToFunctionType(typeEntered: string): IFunctionType {
+  private convertToFunctionType(typeEntered = ""): IFunctionType {
     switch (typeEntered) {
       case "Internal Logical File": return new InternalLogicalFile();
       case "External Interface Function": return new ExternalInterfaceFunction();

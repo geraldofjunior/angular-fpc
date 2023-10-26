@@ -1,3 +1,4 @@
+import { InternalLogicalFile } from 'src/app/entities/counted-function/data/internal-logical-file';
 import { Complexity } from 'src/app/enums/complexity';
 import { IFunctionType } from './i-function-type';
 
@@ -10,7 +11,7 @@ export class CountedFunction {
   private complexity: Complexity;
   private contribution: number;
 
-  constructor(functionType: IFunctionType, name = "") {
+  constructor(functionType: IFunctionType = new InternalLogicalFile(), name = "") {
     this.functionType = functionType;
     this.name = name.toString();
     this.dataTypes = 0;

@@ -15,6 +15,7 @@ import { CalculatorFunctionComponent } from '../calculator-function/calculator-f
 export class CalculatorProjectComponent implements OnInit {
 
   private projectData!: CountedProject;
+  public projectForm!: FormGroup;
   public functionList = new Array<CountedFunction>();
   public points: number;
   public days: number;
@@ -23,19 +24,6 @@ export class CalculatorProjectComponent implements OnInit {
               public functionDialog: MatDialog) {
     this.points = 0;
     this.days = 0;
-  }
-
-  public projectForm!: FormGroup;
-
-  public save(): void {
-    if (this.projectForm.invalid) return;
-    this.projectData.setProjectName(this.projectForm.value.projectName ? this.projectForm.value.projectName : "");
-    this.projectData.setProjectType(this.projectForm.value.projectType ? this.projectForm.value.projectType : "");
-    this.service.saveProjectData(this.projectData);
-  }
-
-  public refreshList(): void {
-    this.functionList = this.projectData.getAllFunctions();
   }
 
   public ngOnInit(): void {
@@ -56,9 +44,8 @@ export class CalculatorProjectComponent implements OnInit {
     this.days = this.points / 8;
     this.service.saveProjectData(this.projectData);
 
-    this.service.getAllFunctions().subscribe( functions => {
-      this.functionList = functions;
-    });
+    this.service.getAllFunctions().subscribe( functions => this.functionList = functions );
+    this.service.getPoints().subscribe( calculated => this.points = calculated );
 
     this.projectForm = new FormGroup({
       projectName: new FormControl<string>(this.projectData.getProjectName() || "", Validators.required),
@@ -66,7 +53,18 @@ export class CalculatorProjectComponent implements OnInit {
     });
   }
 
-  private updateFunctionList() {
+  public save(): void {
+    if (this.projectForm.invalid) return;
+    this.projectData.setProjectName(this.projectForm.value.projectName ? this.projectForm.value.projectName : "");
+    this.projectData.setProjectType(this.projectForm.value.projectType ? this.projectForm.value.projectType : "");
+    this.service.saveProjectData(this.projectData);
+  }
+
+  public refreshList(): void {
+    this.functionList = this.projectData.getAllFunctions();
+  }
+
+  private updateFunctionList(): void {
     this.functionList = this.projectData.getAllFunctions();
     this.points = this.projectData.calculatePoints();
     this.days = this.points / 8;
@@ -82,9 +80,13 @@ export class CalculatorProjectComponent implements OnInit {
     this.functionDialog.open(CalculatorFunctionComponent, {
       width: '434px',
       data: functionToBeUpdated
-    });
+    }).afterClosed().subscribe( () => this.points = this.projectData.calculatePoints() );
+  }
 
-    // Se precisar de dados do formulário, inscrever no afterClosed() do dialogRef, que é
-    // retorno do método open()
+  public addFunction(): void {
+    this.functionDialog.open(CalculatorFunctionComponent, {
+      width: '434px',
+      data: new CountedFunction()
+    }).afterClosed().subscribe( () => this.points = this.projectData.calculatePoints() );
   }
 }
