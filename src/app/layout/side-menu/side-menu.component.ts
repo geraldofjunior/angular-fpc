@@ -22,8 +22,8 @@ export class SideMenuComponent implements OnInit {
   public save(): void {
     if (!this.userConfigForm.valid) return;
     const newConfig = new User();
-    newConfig.setHoursPerFP(this.userConfigForm.value.hoursPerFp ? this.userConfigForm.value.hoursPerFp : 1)
-             .setPricePerFP(this.userConfigForm.value.pricePerFP ? this.userConfigForm.value.pricePerFP : 1)
+    newConfig.setHoursPerFP(this.userConfigForm.value.hoursPerFp || 1)
+             .setPricePerFP(this.userConfigForm.value.pricePerFP || 1)
              .setFunctionPointsPerStoryPoint(1);
     this.userService.updateUser(newConfig);
   }

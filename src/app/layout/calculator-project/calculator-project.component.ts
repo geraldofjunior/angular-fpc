@@ -6,6 +6,7 @@ import { InternalLogicalFile } from 'src/app/entities/counted-function/data/inte
 import { CountedProject } from 'src/app/entities/counted-project/counted-project';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { CalculatorFunctionComponent } from '../calculator-function/calculator-function.component';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-calculator-project',
@@ -19,33 +20,25 @@ export class CalculatorProjectComponent implements OnInit {
   public functionList = new Array<CountedFunction>();
   public points: number;
   public days: number;
+  public price: number;
 
   constructor(private service: ProjectService,
+              private configService: UserService,
               public functionDialog: MatDialog) {
     this.points = 0;
     this.days = 0;
+    this.price = 0;
   }
 
   public ngOnInit(): void {
-    this.service.getProjectData().subscribe(data => {
-      this.projectData = data;
-      this.projectForm.value.projectName = this.projectData.getProjectName();
-      this.projectForm.value.projectType = this.projectData.getProjectType();
-    });
-
-    // Create some dummy objects to be modeled
-    for(let i = 1; i <= 5; i++) {
-      const dummyFunction = new CountedFunction(new InternalLogicalFile(), "Dummy function No. " + i );
-      dummyFunction.setDataTypes(i*5).setElementaryTypes(i);
-      this.functionList.push(dummyFunction);
-      this.projectData.addFunction(dummyFunction);
-      this.points += dummyFunction.getContribution();
-    }
-    this.days = this.points / 8;
-    this.service.saveProjectData(this.projectData);
-
+    this.service.getProjectData().subscribe( data => this.projectData = data );
     this.service.getAllFunctions().subscribe( functions => this.functionList = functions );
     this.service.getPoints().subscribe( calculated => this.points = calculated );
+    this.configService.calculatePrice(this.points).subscribe( data => this.price = data);
+    this.configService.calculateTerm(this.points).subscribe( data => this.days = data );
+
+    this.createDummyData();
+    this.service.saveProjectData(this.projectData);
 
     this.projectForm = new FormGroup({
       projectName: new FormControl<string>(this.projectData.getProjectName() || "", Validators.required),
@@ -67,7 +60,10 @@ export class CalculatorProjectComponent implements OnInit {
   private updateFunctionList(): void {
     this.functionList = this.projectData.getAllFunctions();
     this.points = this.projectData.calculatePoints();
-    this.days = this.points / 8;
+  }
+
+  private updateData(): void {
+    this.points = this.projectData.calculatePoints();
   }
 
   public deleteFunction(functionToBeDeleted: CountedFunction): void {
@@ -88,5 +84,15 @@ export class CalculatorProjectComponent implements OnInit {
       width: '434px',
       data: new CountedFunction()
     }).afterClosed().subscribe( () => this.points = this.projectData.calculatePoints() );
+  }
+
+  private createDummyData() {
+    for(let i = 1; i <= 5; i++) {
+      const dummyFunction = new CountedFunction(new InternalLogicalFile(), "Dummy function No. " + i );
+      dummyFunction.setDataTypes(i*5).setElementaryTypes(i);
+      this.functionList.push(dummyFunction);
+      this.projectData.addFunction(dummyFunction);
+      this.points += dummyFunction.getContribution();
+    }
   }
 }

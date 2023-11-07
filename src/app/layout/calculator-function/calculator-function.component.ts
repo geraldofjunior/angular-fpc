@@ -10,8 +10,6 @@ import { IFunctionType } from 'src/app/entities/counted-function/i-function-type
 import { ExternalInput } from 'src/app/entities/counted-function/transaction/external-input';
 import { ExternalOutput } from 'src/app/entities/counted-function/transaction/external-output';
 
-const DEFAULT_TYPE = "ILF";
-
 @Component({
   selector: 'app-calculator-function',
   templateUrl: './calculator-function.component.html',
@@ -44,7 +42,7 @@ export class CalculatorFunctionComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<CalculatorFunctionComponent>,
-    @Inject(MAT_DIALOG_DATA) public dialogData = new CountedFunction(new InternalLogicalFile()),
+    @Inject(MAT_DIALOG_DATA) public dialogData = new CountedFunction(),
     private projectManager: ProjectService
   ) {
     this.loadedData = dialogData;
