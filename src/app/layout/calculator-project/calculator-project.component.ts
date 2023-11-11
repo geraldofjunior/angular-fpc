@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CountedFunction } from 'src/app/entities/counted-function/counted-function';
@@ -7,13 +7,14 @@ import { CountedProject } from 'src/app/entities/counted-project/counted-project
 import { ProjectService } from 'src/app/services/project/project.service';
 import { CalculatorFunctionComponent } from '../calculator-function/calculator-function.component';
 import { UserService } from 'src/app/services/user/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-calculator-project',
   templateUrl: './calculator-project.component.html',
   styleUrls: ['./calculator-project.component.css']
 })
-export class CalculatorProjectComponent implements OnInit {
+export class CalculatorProjectComponent implements OnInit, OnDestroy {
 
   private projectData!: CountedProject;
   public projectForm!: FormGroup;
@@ -21,6 +22,7 @@ export class CalculatorProjectComponent implements OnInit {
   public points: number;
   public days: number;
   public price: number;
+  private daysSub = new Subscription();
 
   constructor(private service: ProjectService,
               private configService: UserService,
@@ -34,16 +36,20 @@ export class CalculatorProjectComponent implements OnInit {
     this.service.getProjectData().subscribe( data => this.projectData = data );
     this.service.getAllFunctions().subscribe( functions => this.functionList = functions );
     this.service.getPoints().subscribe( calculated => this.points = calculated );
-    this.configService.calculatePrice(this.points).subscribe( data => this.price = data);
-    this.configService.calculateTerm(this.points).subscribe( data => this.days = data );
+    this.daysSub = this.service.getDays().subscribe( calculatedTerm => this.days = calculatedTerm );
 
     this.createDummyData();
     this.service.saveProjectData(this.projectData);
+    this.updateData();
 
     this.projectForm = new FormGroup({
       projectName: new FormControl<string>(this.projectData.getProjectName() || "", Validators.required),
       projectType: new FormControl<string>(this.projectData.getProjectType().toString() || "", Validators.required)
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.daysSub.unsubscribe();
   }
 
   public save(): void {
@@ -64,6 +70,9 @@ export class CalculatorProjectComponent implements OnInit {
 
   private updateData(): void {
     this.points = this.projectData.calculatePoints();
+    console.log(this.service);
+    console.log(this.configService);
+    console.log(this.days);
   }
 
   public deleteFunction(functionToBeDeleted: CountedFunction): void {
@@ -76,7 +85,10 @@ export class CalculatorProjectComponent implements OnInit {
     this.functionDialog.open(CalculatorFunctionComponent, {
       width: '434px',
       data: functionToBeUpdated
-    }).afterClosed().subscribe( () => this.points = this.projectData.calculatePoints() );
+    }).afterClosed().subscribe( () => {
+      this.updateData();
+      //this.points = this.projectData.calculatePoints()
+    });
   }
 
   public addFunction(): void {
@@ -84,6 +96,7 @@ export class CalculatorProjectComponent implements OnInit {
       width: '434px',
       data: new CountedFunction()
     }).afterClosed().subscribe( () => this.points = this.projectData.calculatePoints() );
+
   }
 
   private createDummyData() {

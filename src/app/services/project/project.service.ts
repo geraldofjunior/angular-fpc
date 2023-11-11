@@ -4,10 +4,13 @@ import { CountedFunction } from 'src/app/entities/counted-function/counted-funct
 import { ExternalQuery } from 'src/app/entities/counted-function/transaction/external-query';
 import { CountedProject } from 'src/app/entities/counted-project/counted-project';
 import { ProjectType } from 'src/app/enums/project-type';
+import { UserService } from '../user/user.service';
+import { User } from 'src/app/entities/user/user';
 
 const DEFAULTS = {
   NAME: "Default Function",
   TYPE: ProjectType.DEVELOPMENT,
+  OFFICE_HOURS: 8
 }
 
 @Injectable({
@@ -15,6 +18,13 @@ const DEFAULTS = {
 })
 export class ProjectService {
   private project = new CountedProject(DEFAULTS.TYPE, DEFAULTS.NAME);
+  private userConfig!: User;
+  private configuratedTerm = 0;
+
+  constructor(private userService: UserService) {
+    this.userService.getConfig().subscribe( currentConfig => this.userConfig = currentConfig );
+    this.userService.getTerm().subscribe( newValue => this.configuratedTerm = newValue );
+  }
 
   public getProjectData(): Observable<CountedProject> {
     return of(this.project);
@@ -22,6 +32,7 @@ export class ProjectService {
 
   public saveProjectData(newData: CountedProject): void {
     this.project = newData;
+
   }
 
   public addFunction(newFunction: CountedFunction): void {
@@ -52,5 +63,40 @@ export class ProjectService {
 
   public getPoints(): Observable<number> {
     return of(this.project.calculatePoints());
+  }
+
+  public getDays(): Observable<number> {
+    const functionPoints = this.project.calculatePoints();
+    return of((functionPoints * this.configuratedTerm) / DEFAULTS.OFFICE_HOURS);
+  }
+
+  public getPrice(): Observable<number> {
+    const functionPoints = this.project.calculatePoints();
+    return of(functionPoints * this.userConfig.getPricePerFP());
+  }
+
+  private updateDays() {
+    this.configuratedTerm
+  }
+
+  public getScrumPoints(): Observable<number> {
+    let scrumPoints = 0;
+    const functionPoints = this.project.calculatePoints();
+    const days = (functionPoints * this.userConfig.getHoursPerFP()) / DEFAULTS.OFFICE_HOURS;
+    if (days <= 0.5) return of(1);
+    if (days <= 1) return of(2);
+    if (days <= 2) return of(3);
+    if (days <= 5) return of(5);
+    if (days <= 10) return of(8);
+    const points = [5, 8];
+    let nextCheckpoint = 15;
+    scrumPoints = 13;
+    while (days > nextCheckpoint) {
+      scrumPoints = points[0] + points[1];
+      points[0] = points[1];
+      points[1] = scrumPoints;
+      nextCheckpoint += 15;
+    }
+    return of(scrumPoints);
   }
 }
