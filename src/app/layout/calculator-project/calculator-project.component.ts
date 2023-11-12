@@ -24,6 +24,10 @@ export class CalculatorProjectComponent implements OnInit, OnDestroy {
   public price: number;
   private daysSub = new Subscription();
 
+  // teste
+  private configSub = new Subscription();
+  private hppf = 0;
+
   constructor(private service: ProjectService,
               private configService: UserService,
               public functionDialog: MatDialog) {
@@ -37,6 +41,7 @@ export class CalculatorProjectComponent implements OnInit, OnDestroy {
     this.service.getAllFunctions().subscribe( functions => this.functionList = functions );
     this.service.getPoints().subscribe( calculated => this.points = calculated );
     this.daysSub = this.service.getDays().subscribe( calculatedTerm => this.days = calculatedTerm );
+    this.configSub = this.configService.getDays().subscribe( value => this.hppf = value );
 
     this.createDummyData();
     this.service.saveProjectData(this.projectData);
@@ -70,9 +75,12 @@ export class CalculatorProjectComponent implements OnInit, OnDestroy {
 
   private updateData(): void {
     this.points = this.projectData.calculatePoints();
+    const dias = (this.points * this.hppf) / 8;
+    console.log(`Horas por Ponto de Função: ${this.hppf}`);
+    console.log(`Dias calculado in loco: ${dias}`);
+    console.log(`Dias calculado no serviço: ${this.days}`);
     console.log(this.service);
     console.log(this.configService);
-    console.log(this.days);
   }
 
   public deleteFunction(functionToBeDeleted: CountedFunction): void {

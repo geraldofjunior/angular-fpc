@@ -19,7 +19,7 @@ export class UserService {
     return of(this.userConfig);
   }
 
-  public updateUser(config: User) {
+  public updateUser(config: User): void {
     this.userConfig
         .setHoursPerFP(config.getHoursPerFP())
         .setPricePerFP(config.getPricePerFP());
@@ -44,6 +44,10 @@ export class UserService {
 
   public getTerm(): Observable<number> {
     return of(this.userConfig.getHoursPerFP());
+  }
+
+  public getDays(): Observable<number> {
+    return this.termSubject.asObservable();
   }
 
   /**
