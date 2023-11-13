@@ -15,20 +15,6 @@
   <button mat-fab extended type="button" id="add-function-button" (click)="addFunction()"><mat-icon fontIcon="add"></mat-icon>Add function</button>
 </form>
 
-<mat-card id="results">
-  <mat-card-header><mat-card-title id="result-title">Project size</mat-card-title></mat-card-header>
-  <mat-card-content>
-    <div class="result-value">
-      <span class="result-item-title">Function Points: </span>
-      <span class="result-item-value">{{points}} FPs</span>
-    </div>
-    <div class="result-value">
-      <span class="result-item-title">Time needed: </span>
-      <span class="result-item-value">{{days.toFixed(0)}} days</span>
-    </div>
-  </mat-card-content>
-</mat-card>
-
 <!-- Function list -->
 <div id="function-list" *ngIf="functionList.length > 0">
   <mat-card class="function-list--card" *ngFor="let func of functionList">

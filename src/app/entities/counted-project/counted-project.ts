@@ -4,6 +4,8 @@ import { CountedFunction } from '../counted-function/counted-function';
 import { ProjectType } from './../../enums/project-type';
 import { InfluenceType } from 'src/app/enums/influence-type';
 
+const OFFICE_HOURS = 8;
+
 export class CountedProject {
   public setProjectType(projectType: string): CountedProject {
     switch (projectType) {
@@ -82,5 +84,33 @@ export class CountedProject {
     return grossPoints * this.adjustmentFactors.calculate();
   }
 
+  public calculateProjectTerm(hoursPerPoint: number) {
+    const functionPoints = this.calculatePoints();
+    return (functionPoints * hoursPerPoint) / OFFICE_HOURS;
+  }
+
+  public calculateProjectPrice(costPerPoint: number) {
+    const functionPoints = this.calculatePoints();
+    return functionPoints * costPerPoint;
+  }
+
+  public calculateScrumPoints(hoursPerPoint: number) {
+    const days = this.calculateProjectTerm(hoursPerPoint);
+    if (days <= 0.5) return 1;
+    if (days <= 1) return 2;
+    if (days <= 2) return 3;
+    if (days <= 5) return 5;
+    if (days <= 10) return 8;
+    const points = [5, 8];
+    let nextCheckpoint = 15;
+    let scrumPoints = 13;
+    while (days > nextCheckpoint) {
+      scrumPoints = points[0] + points[1];
+      points[0] = points[1];
+      points[1] = scrumPoints;
+      nextCheckpoint += 15;
+    }
+    return scrumPoints;
+  }
 
 }

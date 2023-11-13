@@ -1,0 +1,12 @@
+.result-box {
+  display: flex;
+  justify-content: space-around;
+}
+
+.result-value {
+  margin: 15px;
+}
+
+.result-item-title {
+  font-weight: bold;
+}

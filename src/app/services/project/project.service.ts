@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CountedFunction } from 'src/app/entities/counted-function/counted-function';
 import { ExternalQuery } from 'src/app/entities/counted-function/transaction/external-query';
 import { CountedProject } from 'src/app/entities/counted-project/counted-project';
@@ -19,11 +19,21 @@ const DEFAULTS = {
 export class ProjectService {
   private project = new CountedProject(DEFAULTS.TYPE, DEFAULTS.NAME);
   private userConfig!: User;
-  private configuratedTerm = 0;
+  private functionSubject: BehaviorSubject<CountedFunction[]>;
+  private pointsSubject:BehaviorSubject<number>;
+  private daysSubject: BehaviorSubject<number>;
+  private priceSubject: BehaviorSubject<number>;
 
   constructor(private userService: UserService) {
-    this.userService.getConfig().subscribe( currentConfig => this.userConfig = currentConfig );
-    this.userService.getTerm().subscribe( newValue => this.configuratedTerm = newValue );
+    this.functionSubject = new BehaviorSubject<CountedFunction[]>(this.project.getAllFunctions());
+    this.pointsSubject = new BehaviorSubject<number>(this.project.calculatePoints());
+    this.daysSubject = new BehaviorSubject<number>(this.project.calculateProjectTerm(1));
+    this.priceSubject = new BehaviorSubject<number>(this.project.calculateProjectPrice(1));
+
+    this.userService.getConfig().subscribe( currentConfig => {
+      this.userConfig = currentConfig;
+      this.notifyAll();
+    } );
   }
 
   public getProjectData(): Observable<CountedProject> {
@@ -32,19 +42,22 @@ export class ProjectService {
 
   public saveProjectData(newData: CountedProject): void {
     this.project = newData;
-
+    this.notifyAll();
   }
 
   public addFunction(newFunction: CountedFunction): void {
     this.project.addFunction(newFunction);
+    this.notifyAll();
   }
 
   public editFunction(functionName: string, newData: CountedFunction): void {
     this.project.updateFunction(functionName, newData);
+    this.notifyAll();
   }
 
   public deleteFunction(functionName: string): void {
     this.project.removeFunction(functionName);
+    this.notifyAll();
   }
 
   public getFunction(functionName: string): CountedFunction {
@@ -58,45 +71,25 @@ export class ProjectService {
   }
 
   public getAllFunctions(): Observable<Array<CountedFunction>> {
-    return of(this.project.getAllFunctions());
+    return this.functionSubject.asObservable();
   }
 
   public getPoints(): Observable<number> {
-    return of(this.project.calculatePoints());
+    return this.pointsSubject.asObservable();
   }
 
   public getDays(): Observable<number> {
-    const functionPoints = this.project.calculatePoints();
-    return of((functionPoints * this.configuratedTerm) / DEFAULTS.OFFICE_HOURS);
+   return this.daysSubject.asObservable();
   }
 
   public getPrice(): Observable<number> {
-    const functionPoints = this.project.calculatePoints();
-    return of(functionPoints * this.userConfig.getPricePerFP());
+    return this.priceSubject.asObservable();
   }
 
-  private updateDays() {
-    this.configuratedTerm
-  }
-
-  public getScrumPoints(): Observable<number> {
-    let scrumPoints = 0;
-    const functionPoints = this.project.calculatePoints();
-    const days = (functionPoints * this.userConfig.getHoursPerFP()) / DEFAULTS.OFFICE_HOURS;
-    if (days <= 0.5) return of(1);
-    if (days <= 1) return of(2);
-    if (days <= 2) return of(3);
-    if (days <= 5) return of(5);
-    if (days <= 10) return of(8);
-    const points = [5, 8];
-    let nextCheckpoint = 15;
-    scrumPoints = 13;
-    while (days > nextCheckpoint) {
-      scrumPoints = points[0] + points[1];
-      points[0] = points[1];
-      points[1] = scrumPoints;
-      nextCheckpoint += 15;
-    }
-    return of(scrumPoints);
+  private notifyAll(): void {
+    this.functionSubject.next(this.project.getAllFunctions());
+    this.pointsSubject.next(this.project.calculatePoints());
+    this.daysSubject.next(this.project.calculateProjectTerm(this.userConfig.getHoursPerFP()));
+    this.priceSubject.next(this.project.calculateProjectPrice(this.userConfig.getPricePerFP()));
   }
 }
