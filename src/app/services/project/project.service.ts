@@ -19,6 +19,7 @@ const DEFAULTS = {
 export class ProjectService {
   private project = new CountedProject(DEFAULTS.TYPE, DEFAULTS.NAME);
   private userConfig!: User;
+  private term = 0;
   private functionSubject: BehaviorSubject<CountedFunction[]>;
   private pointsSubject:BehaviorSubject<number>;
   private daysSubject: BehaviorSubject<number>;
