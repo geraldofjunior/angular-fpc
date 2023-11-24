@@ -1,25 +1,29 @@
-import { MainComponent } from './layout/main/main.component';
+// Angular
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { SideMenuComponent } from './layout/side-menu/side-menu.component';
-import { CalculatorProjectComponent } from './layout/calculator-project/calculator-project.component';
-import { HeaderComponent } from './layout/header/header.component';
-import { FooterComponent } from './layout/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CalculatorFunctionComponent } from "./layout/calculator-function/calculator-function.component";
-import { MatRadioModule } from "@angular/material/radio";
-import { MatInputModule } from "@angular/material/input";
-import { MatFormFieldModule } from "@angular/material/form-field";
+// Angular Material
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
-import { MatDialogModule } from "@angular/material/dialog"
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from "@angular/material/radio";
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+// Project components
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { HeaderComponent } from './layout/header/header.component';
+import { MainComponent } from './layout/main/main.component';
+import { SideMenuComponent } from './layout/side-menu/side-menu.component';
+import { FooterComponent } from './layout/footer/footer.component';
+import { CalculatorProjectComponent } from './layout/calculator-project/calculator-project.component';
+import { CalculatorFunctionComponent } from "./layout/calculator-function/calculator-function.component";
+import { CalculatorInfluencesComponent } from './layout/calculator-influences/calculator-influences.component'
 
 @NgModule({
   declarations: [
@@ -30,6 +34,7 @@ import { MatDialogModule } from "@angular/material/dialog"
     CalculatorFunctionComponent,
     HeaderComponent,
     FooterComponent,
+    CalculatorInfluencesComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,25 +1,14 @@
 import { AdjustmentFactor } from './../adjustment-factor/adjustment-factor';
-import { IAdjustmentFactor } from '../adjustment-factor/i-adjustment-factor';
 import { CountedFunction } from '../counted-function/counted-function';
 import { ProjectType } from './../../enums/project-type';
 import { InfluenceType } from 'src/app/enums/influence-type';
+import { InfluenceFactor } from '../adjustment-factor/influence-factor';
 
 const OFFICE_HOURS = 8;
 
 export class CountedProject {
-  public setProjectType(projectType: string): CountedProject {
-    switch (projectType) {
-      case "2": this.projectType = ProjectType.APPLICATION; break;
-      case "0": this.projectType = ProjectType.DEVELOPMENT; break;
-      case "1": this.projectType = ProjectType.ENHANCMENT;  break;
-    }
-    return this;
-  }
-  public getProjectType(): ProjectType {
-    return this.projectType;
-  }
   private functions: Array<CountedFunction> = new Array<CountedFunction>();
-  private adjustmentFactors: IAdjustmentFactor = new AdjustmentFactor();
+  private adjustmentFactors: AdjustmentFactor = new AdjustmentFactor();
   private projectName: string;
 
   constructor(private projectType: ProjectType, projectName: string) {
@@ -33,8 +22,16 @@ export class CountedProject {
     return this;
   }
 
+  public setProjectType(projectType: number): CountedProject {
+    if (projectType < 0 || projectType > 2) return this;
+    this.projectType = projectType as ProjectType;
+    return this;
+  }
+  public getProjectType(): ProjectType {
+    return this.projectType;
+  }
+
   public addFunction(newFunction: CountedFunction): CountedProject {
-    // Prevents duplicated names
     if (this.functions.find(obj => obj.getName() === newFunction.getName())) return this;
     this.functions.push(newFunction);
     return this;
@@ -71,15 +68,22 @@ export class CountedProject {
     this.functions.splice(index, 1);
     return this;
   }
-  public getAllFunctions(): Array<CountedFunction> { return this.functions; }
+  public getAllFunctions(): CountedFunction[] { return this.functions; }
 
-  public addAdjustmentFactor(type: InfluenceType, value: number): CountedProject { this.adjustmentFactors.addInfluence(type, value); return this; }
-  public updateAdjustmentFactor(type: InfluenceType, value: number): CountedProject { this.adjustmentFactors.updateInfluence(type, value); return this; }
-  public removeAdjustmentFactor(type: InfluenceType): CountedProject { this.adjustmentFactors.removeInfluence(type); return this; }
+  public updateAdjustmentFactor(type: InfluenceType, value: number): CountedProject {
+    this.adjustmentFactors.updateInfluence(type, value);
+    return this;
+  }
+
+  public getAllInfluences(): InfluenceFactor[] {
+    return this.adjustmentFactors.getAllInfluenceFactors();
+  }
 
   public calculatePoints() {
     let grossPoints = 0;
-    this.functions.forEach((currentFunction: CountedFunction) => { grossPoints += currentFunction.getContribution(); });
+    this.functions.forEach((currentFunction: CountedFunction) => {
+      grossPoints += currentFunction.getContribution();
+    });
 
     return grossPoints * this.adjustmentFactors.calculate();
   }

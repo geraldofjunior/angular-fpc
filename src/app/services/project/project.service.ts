@@ -6,6 +6,9 @@ import { CountedProject } from 'src/app/entities/counted-project/counted-project
 import { ProjectType } from 'src/app/enums/project-type';
 import { UserService } from '../user/user.service';
 import { User } from 'src/app/entities/user/user';
+import { AdjustmentFactor } from 'src/app/entities/adjustment-factor/adjustment-factor';
+import { InfluenceFactor } from 'src/app/entities/adjustment-factor/influence-factor';
+import { InfluenceType } from 'src/app/enums/influence-type';
 
 const DEFAULTS = {
   NAME: "Default Function",
@@ -19,17 +22,18 @@ const DEFAULTS = {
 export class ProjectService {
   private project = new CountedProject(DEFAULTS.TYPE, DEFAULTS.NAME);
   private userConfig!: User;
-  private term = 0;
   private functionSubject: BehaviorSubject<CountedFunction[]>;
   private pointsSubject:BehaviorSubject<number>;
   private daysSubject: BehaviorSubject<number>;
   private priceSubject: BehaviorSubject<number>;
+  private influenceSubject: BehaviorSubject<InfluenceFactor[]>
 
   constructor(private userService: UserService) {
     this.functionSubject = new BehaviorSubject<CountedFunction[]>(this.project.getAllFunctions());
     this.pointsSubject = new BehaviorSubject<number>(this.project.calculatePoints());
     this.daysSubject = new BehaviorSubject<number>(this.project.calculateProjectTerm(1));
     this.priceSubject = new BehaviorSubject<number>(this.project.calculateProjectPrice(1));
+    this.influenceSubject = new BehaviorSubject<InfluenceFactor[]>(this.project.getAllInfluences());
 
     this.userService.getConfig().subscribe( currentConfig => {
       this.userConfig = currentConfig;
@@ -87,10 +91,20 @@ export class ProjectService {
     return this.priceSubject.asObservable();
   }
 
+  public getInfluences(): Observable<InfluenceFactor[]> {
+    return this.influenceSubject.asObservable();
+  }
+
+  public updateInfluence(influenceType: InfluenceType, newValue: number): void {
+    this.project.updateAdjustmentFactor(influenceType, newValue);
+    this.notifyAll();
+  }
+
   private notifyAll(): void {
     this.functionSubject.next(this.project.getAllFunctions());
     this.pointsSubject.next(this.project.calculatePoints());
     this.daysSubject.next(this.project.calculateProjectTerm(this.userConfig.getHoursPerFP()));
     this.priceSubject.next(this.project.calculateProjectPrice(this.userConfig.getPricePerFP()));
+    this.influenceSubject.next(this.project.getAllInfluences());
   }
 }

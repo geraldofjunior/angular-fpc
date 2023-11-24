@@ -1,29 +1,27 @@
 import { InfluenceType } from "src/app/enums/influence-type";
-import { IAdjustmentFactor } from "./i-adjustment-factor";
 import { InfluenceFactor } from "./influence-factor";
 
-export class AdjustmentFactor implements IAdjustmentFactor{
+export class AdjustmentFactor {
   private influenceFactor: Array<InfluenceFactor>;
 
   constructor() {
     this.influenceFactor = new Array<InfluenceFactor>();
+    this.addInfluences();
   }
 
-  public addInfluence(type: InfluenceType, value: number): void {
+  private addInfluence(type: InfluenceType, value: number): void {
     if (this.findAnInfluence(type) !== -1) return;
 
     const newFactor = new InfluenceFactor(type, value);
     this.influenceFactor.push(newFactor);
   }
 
-  public removeInfluence(type: InfluenceType): void {
-    const toRemove = this.findAnInfluence(type);
-    if (toRemove === -1) return;
-
-    this.influenceFactor.splice(toRemove, 1);
+  public getAllInfluenceFactors(): InfluenceFactor[] {
+    return this.influenceFactor;
   }
 
   public updateInfluence(type: InfluenceType, newValue: number): void {
+    if (newValue < 0 && newValue > 5) return;
     const toUpdate = this.findAnInfluence(type);
     this.influenceFactor[toUpdate].setInfluenceValue(newValue);
   }
@@ -47,5 +45,11 @@ export class AdjustmentFactor implements IAdjustmentFactor{
         return true;
       return false;
     });
+  }
+
+  private addInfluences() {
+    for (const type in InfluenceType) {
+      this.addInfluence(type as InfluenceType, 0);
+    }
   }
 }

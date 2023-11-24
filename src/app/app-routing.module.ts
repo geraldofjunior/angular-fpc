@@ -1,8 +1,8 @@
-import { MainComponent } from './layout/main/main.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {CalculatorFunctionComponent} from "./layout/calculator-function/calculator-function.component";
 import {CalculatorProjectComponent} from "./layout/calculator-project/calculator-project.component";
+import { CalculatorInfluencesComponent } from './layout/calculator-influences/calculator-influences.component';
 
 const routes: Routes = [
   {
@@ -21,6 +21,10 @@ const routes: Routes = [
   {
     path: "project",
     component:CalculatorProjectComponent
+  },
+  {
+    path: "influences",
+    component: CalculatorInfluencesComponent
   }
 ];
 
